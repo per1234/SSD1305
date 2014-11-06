@@ -3,6 +3,11 @@
 
 #include "Arduino.h"
 
+/**
+ * SSD1305 contains basic utilities for interacting with the SSD1305 display
+ * controller. This class currently only works on Arduino Due, because of the
+ * SPI library it references.
+ */
 class SSD1305 {
   private:
     static const int junk_buffer    =  532;  // buffers beyond display
@@ -29,7 +34,6 @@ class SSD1305 {
 
     inline void setPixel(int x, int y, int val);
     void draw();
-
     void clear();
     void drawLine(int, int, int, int);
     void drawCircle(int, int, int);

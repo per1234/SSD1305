@@ -3,6 +3,14 @@
 
 #include <SPI.h>
 
+/**
+ * SSD1305::SSD1305 - Initializes the SSD1305. Takes care of initial settings 
+ *                    on the chip and
+ * sets up SPI bus.
+ * @cs      - chip select pin
+ * @dc      - data/command pin
+ * @reset   - reset pin
+ */
 SSD1305::SSD1305(int cs, int dc, int reset) {
     this->cs    = cs;
     this->dc    = dc;
@@ -68,10 +76,20 @@ SSD1305::SSD1305(int cs, int dc, int reset) {
     SPI.transfer(cs, 0xAF, SPI_LAST);
 }
 
+/**
+ * SSD1305::~SSD1305 - Destroys the SSD1305. Really, does nothing.
+ */
 SSD1305::~SSD1305() {
-
+    // no code here
 }
 
+/**
+ * SSD1305::setPixel - sets a pixel on the display. Inline to save on
+ *                     overhead on calling subroutines
+ * @x       - X position of the pixel
+ * @y       - Y position of the pixel
+ * @val     - value of pixel (1 or 0)
+ */
 inline 
 void SSD1305::setPixel(int x, int y, int val) {
     if (val)
@@ -80,6 +98,10 @@ void SSD1305::setPixel(int x, int y, int val) {
         buffer[x + (width * (y / pix_in_page)) ] &= 0xFF & (val << (y % pix_in_page));
 }
 
+/**
+ * SSD1305::draw - Draws the screen. Will do nothing if nothing has changed on
+ *                 the display.
+ */
 void SSD1305::draw() {
     if (buffer_changed) {
         digitalWrite(dc, 1);
@@ -102,12 +124,23 @@ void SSD1305::draw() {
     }
 }
 
+/**
+ * SSD1305::clear - Clears the display
+ */
 void SSD1305::clear() {
     for (int i = 0; i < numBuffers; i++) {
         buffer[i] = 0;
     }
+    buffer_changed = 1;
 }
 
+/**
+ * SSD1305::drawLine - draws a line using Bresenham's line drawing algorithm.
+ * @x1      - First x coordinate
+ * @y1      - First y coordinate
+ * @x2      - Second x coordinate
+ * @y2      - Second y coordinate
+ */
 void SSD1305::drawLine(int x1, int y1, int x2, int y2) {
     int dy = y2 - y1;
     int dx  = x2 - x1;
@@ -168,6 +201,12 @@ void SSD1305::drawLine(int x1, int y1, int x2, int y2) {
     buffer_changed = 1;
 }
 
+/**
+ * SSD1305::drawCircle - Draws a circle using Bresenham's circle algorithm
+ * @x0      - Center of circle's X coordinate
+ * @y0      - Center of circle's Y coordinate
+ * @radius  - Radius of the circle in pixels
+ */
 void SSD1305::drawCircle(int x0, int y0, int radius) {
     int x = radius;
     int y = 0;
@@ -193,4 +232,5 @@ void SSD1305::drawCircle(int x0, int y0, int radius) {
             radiusError += 2 * (y - x + 1);
         }
     }
+    buffer_changed = 1;
 }
