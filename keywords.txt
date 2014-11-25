@@ -4,3 +4,4 @@ draw	KEYWORD2
 clear	KEYWORD2
 drawLine	KEYWORD2
 drawCircle	KEYWORD2
+drawRectangle	KEYWORD2

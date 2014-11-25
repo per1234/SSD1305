@@ -245,8 +245,12 @@ void SSD1305::drawCircle(int x0, int y0, int radius) {
  */
 void SSD1305::drawRectangle(int x1, int y1, int x2, int y2, bool filled) {
     if (filled) {
-        for (int y = 0; y < y2 - y1; y++) {
-            for (int x = 0; x < x2 - x1; x++) {
+        int startY = (y1 > y2) ? y2 : y1;
+        int startX = (x1 > x2) ? x2 : x1;
+        int endY   = (y1 > y2) ? y1 : y2;
+        int endX   = (x1 > x2) ? x1 : x2;
+        for (int y = startY; y < endY; y++) {
+            for (int x = startX; x < endX; x++) {
                 setPixel(x, y, 1);
             }
         }
