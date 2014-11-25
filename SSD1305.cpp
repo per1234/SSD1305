@@ -249,8 +249,8 @@ void SSD1305::drawRectangle(int x1, int y1, int x2, int y2, bool filled) {
         int startX = (x1 > x2) ? x2 : x1;
         int endY   = (y1 > y2) ? y1 : y2;
         int endX   = (x1 > x2) ? x1 : x2;
-        for (int y = startY; y < endY; y++) {
-            for (int x = startX; x < endX; x++) {
+        for (int y = startY; y <= endY; y++) {
+            for (int x = startX; x <= endX; x++) {
                 setPixel(x, y, 1);
             }
         }
