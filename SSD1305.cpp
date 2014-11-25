@@ -234,3 +234,27 @@ void SSD1305::drawCircle(int x0, int y0, int radius) {
     }
     buffer_changed = 1;
 }
+
+/**
+ * SSD1305::drawRectangle - Draws a rectangle
+ * @x1      - First x coordinate
+ * @y1      - First y coordinate
+ * @x2      - Second x coordinate
+ * @y2      - Second y coordinate
+ * @filled  - If the rectangle is filled
+ */
+void SSD1305::drawRectangle(int x1, int y1, int x2, int y2, bool filled) {
+    if (filled) {
+        for (int y = 0; y < y2 - y1; y++) {
+            for (int x = 0; x < x2 - x1; x++) {
+                setPixel(x, y, 1);
+            }
+        }
+    }
+    else {
+        drawLine(x1, y1, x1, y2);
+        drawLine(x1, y2, x2, y2);
+        drawLine(x2, y2, x2, y1);
+        drawLine(x2, y1, x1, y1);
+    }
+}

@@ -37,6 +37,7 @@ class SSD1305 {
     void clear();
     void drawLine(int, int, int, int);
     void drawCircle(int, int, int);
+    void drawRectangle(int, int, int, int, bool);
 };
 
 #endif
