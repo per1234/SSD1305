@@ -3,6 +3,8 @@
 
 #include "Arduino.h"
 
+#define SSD1305_ORIENTATION 1
+
 /**
  * SSD1305 contains basic utilities for interacting with the SSD1305 display
  * controller. This class currently only works on Arduino Due, because of the

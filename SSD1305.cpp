@@ -92,10 +92,19 @@ SSD1305::~SSD1305() {
  */
 inline 
 void SSD1305::setPixel(int x, int y, int val) {
-    if (val)
-        buffer[x + (width * (y / pix_in_page)) ] |= val << (y % pix_in_page);
-    else
-        buffer[x + (width * (y / pix_in_page)) ] &= 0xFF & (val << (y % pix_in_page));
+    if (x >= 0 && x < width && y >= 0 && y < height) {
+    #if SSD1305_ORIENTATION
+        if (val)
+            buffer[width - x + (width * ((height - 1 - y)  / pix_in_page))] |= val << ((pix_in_page - 1) - (y % pix_in_page));
+        else
+            buffer[width - x + (width * ((height - 1 - y)  / pix_in_page))] &= 0xFF & (val << ((pix_in_page - 1) - (y % pix_in_page)));
+    #else
+        if (val)
+            buffer[x + (width * (y / pix_in_page)) ] |= val << (y % pix_in_page);
+        else
+            buffer[x + (width * (y / pix_in_page)) ] &= 0xFF & (val << (y % pix_in_page));
+    #endif
+    }
 }
 
 /**
